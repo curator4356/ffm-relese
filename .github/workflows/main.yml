@@ -18,12 +18,16 @@ jobs:
           brew install automake fdk-aac git lame libass libtool libvorbis libvpx \
             opencore-amr opus sdl2 shtool texi2html theora wget x264 x265 xvid nasm pkg-config
 
+      - name: Set PKG_CONFIG_PATH
+        run: echo "PKG_CONFIG_PATH=/opt/homebrew/lib/pkgconfig:/opt/homebrew/share/pkgconfig" >> $GITHUB_ENV
+
       - name: Configure FFmpeg
         run: |
           cd ffmpeg
           ./configure --prefix="$HOME/ffmpeg_build" --enable-gpl --enable-nonfree \
             --enable-libx264 --enable-libx265 --enable-libvpx --enable-libmp3lame \
-            --enable-libopus --enable-libvorbis --enable-libass --enable-libfdk-aac
+            --enable-libopus --enable-libvorbis --enable-libass --enable-libfdk-aac \
+            --extra-cflags="-I/opt/homebrew/include" --extra-ldflags="-L/opt/homebrew/lib"
 
       - name: Build FFmpeg
         run: |
