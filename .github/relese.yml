@@ -1,0 +1,12 @@
+name: macOS ARM Test
+
+on: [push]
+
+jobs:
+  clone:
+    runs-on: macos-14 # or macos-15, or macos-latest-xlarge for M1/M2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Clone another repo
+        run: git clone --depth=1 https://git.ffmpeg.org/ffmpeg.git
