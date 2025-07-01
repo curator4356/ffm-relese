@@ -21,7 +21,7 @@ jobs:
       - name: Build static FFmpeg (without GPL and non-free codecs)
         run: |
           cd ffmpeg-build-script
-          ./build-ffmpeg
+          ./build-ffmpeg --build
 
       - name: Copy ffmpeg binary
         run: |
