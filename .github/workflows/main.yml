@@ -1,12 +1,36 @@
-name: macOS ARM Test
+name: Build FFmpeg on macOS ARM
 
 on: [push]
 
 jobs:
-  clone:
-    runs-on: macos-14 # or macos-15, or macos-latest-xlarge for M1/M2
+  build-ffmpeg:
+    runs-on: macos-14 # or macos-15 for latest Apple Silicon runner
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Clone another repo
+
+      - name: Clone FFmpeg
         run: git clone --depth=1 https://git.ffmpeg.org/ffmpeg.git
+
+      - name: Install build dependencies
+        run: |
+          brew update
+          brew install automake fdk-aac git lame libass libtool libvorbis libvpx \
+            opencore-amr opus sdl2 shtool texi2html theora wget x264 x265 xvid nasm pkg-config
+
+      - name: Configure FFmpeg
+        run: |
+          cd ffmpeg
+          ./configure --prefix="$HOME/ffmpeg_build" --enable-gpl --enable-nonfree \
+            --enable-libx264 --enable-libx265 --enable-libvpx --enable-libmp3lame \
+            --enable-libopus --enable-libvorbis --enable-libass --enable-libfdk-aac
+
+      - name: Build FFmpeg
+        run: |
+          cd ffmpeg
+          make -j$(sysctl -n hw.ncpu)
+
+      - name: Install FFmpeg
+        run: |
+          cd ffmpeg
+          make install
