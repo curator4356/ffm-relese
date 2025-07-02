@@ -16,12 +16,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Clone FFmpeg
-        run: git clone --depth=1 https://github.com/markus-perl/ffmpeg-build-script.git
+        run: git clone --depth=1 https://github.com/curator4356/ffmpeg-build-script.git
 
       - name: Build static FFmpeg (without GPL and non-free codecs)
         run: |
           cd ffmpeg-build-script
-          SKIPINSTALL=yes VERBOSE=yes ./build-ffmpeg --build
+          SKIPINSTALL=yes VERBOSE=yes ./build-ffmpeg-minimal --build
 
       - name: check shared library
         run: |
