@@ -2,8 +2,8 @@ name: Build & Release Static FFmpeg on macOS ARM
 
 on:
   push:
-    tags:
-      - 'v*'  # Triggers only on tag pushes like v1.0.0
+    branches:
+      - main
 
 permissions:
   contents: write
